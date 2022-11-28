@@ -18,11 +18,12 @@ class BarChart(BaseChart):
     def draw(self, data,figsize = (5,5),legend = True, **kwargs):
         with plt.style.context(['visual/style/ieee-bar.mplstyle']):
             self.fig, ax = plt.subplots(ncols=1,nrows=1,figsize = figsize)
-
+            
             self.draw_ax(data,ax,legend,**kwargs)
             
             if self._draw_callback is not None:
                 self._draw_callback(self.fig,ax,data)
+            
 
             return 
 

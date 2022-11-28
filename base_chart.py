@@ -1,5 +1,7 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
 import pandas as pd
 import numpy as np
 
@@ -16,21 +18,30 @@ class BaseChart:
         raise NotImplementedError
 
     def draw_ax(self,data,ax,legend,**kwargs):
-        fontsize = kwargs.get("fontsize",15)
+
+        fontsize = kwargs.get('fontsize',15)
+        if 'font' in kwargs:
+            font = fm.FontProperties(fname= kwargs['font'],size = fontsize)
+        else:
+            font = fm.FontProperties(fname= 'visual/font/Times New Roman.ttf',size = fontsize)
+
+
+ 
         if "xlabel" in kwargs:
-            ax.set_xlabel(kwargs["xlabel"],fontsize)
+            ax.set_xlabel(kwargs['xlabel'],fontproperties = font)
         if "ylabel" in kwargs:
-            ax.set_ylable(kwargs["ylabel"],fontsize)
+            ax.set_ylabel(kwargs["ylabel"],fontproperties = font)
         if "x_ticks" in kwargs:
             ax.set_xticks(*kwargs["x_ticks"])
         if "y_ticks" in kwargs:
             ax.set_xticks(*kwargs["y_ticks"])
         
         if legend:
-            ax.legend(loc = 'best',fontsize = 15)
+            ax.legend(loc = 'best',prop= font )
         if "title" in kwargs:
-            ax.set_title(kwargs["title"])
+            ax.set_title(kwargs["title"],fontproperties = font)
 
+        plt.tight_layout()
         return ax
         
 

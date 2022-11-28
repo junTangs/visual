@@ -6,17 +6,17 @@ class LineChart(BaseChart):
         super().__init__(**kwargs)
 
 
-    def draw_ax(self,data,ax,legend,**kwargs):
+    def draw_ax(self,data,ax,legend = True,**kwargs):
     
         for value in data["values"]:
             ax.plot(data["x"],value["y"],**value["option"])
-
+        
         return super().draw_ax(data,ax,legend,**kwargs)  
 
 
 
     def draw(self, data,figsize = (5,5), legend = True,**kwargs):
-        with plt.style.context(['visual/style/ieee-line.mplstyle',"visual/style/no-latex.mplstyle"]):
+        with plt.style.context(['visual/style/ieee-line.mplstyle',"visual/style/no-latex.mplstyle","visual/style/grid.mplstyle"]):
             self.fig, ax = plt.subplots(ncols=1,nrows=1,figsize = figsize)
 
             self.draw_ax(data,ax,legend,**kwargs)
