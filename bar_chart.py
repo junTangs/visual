@@ -7,32 +7,26 @@ class BarChart(BaseChart):
         super().__init__(**kwargs)
         
     
-    def draw_ax(self, data, ax,bar_width = 0.1, legend = True,**kwargs):
+    def draw_ax(self, data, ax,legend = True,**kwargs):
         d = {}
+
         for value in data["values"]:
             d[value["option"]["label"]] = value['y']
         df = pd.DataFrame(data=d,index=data["x"])
-        ax = df.plot.bar(ax = ax,rot = 0)
+        if kwargs.get("barh",False):
+            ax = df.plot.barh(ax = ax,rot = 0)
+        else:
+            ax = df.plot.bar(ax = ax,rot = 0)
+
+        if kwargs.get("anno",False):
+            for bar_group in ax.containers:
+                ax.bar_label(bar_group,padding=1,fontsize = kwargs.get("fontsize",10))
         return super().draw_ax(data, ax,legend,**kwargs)
 
-    def draw(self, data,figsize = (5,5),legend = True, **kwargs):
-        with plt.style.context(['visual/style/ieee-bar.mplstyle']):
-            self.fig, ax = plt.subplots(ncols=1,nrows=1,figsize = figsize)
-            
-            self.draw_ax(data,ax,legend,**kwargs)
-            
-            if self._draw_callback is not None:
-                self._draw_callback(self.fig,ax,data)
-            
+    def draw(self, data,figsize = (7,7),legend = True, **kwargs):
+        super().draw(data,['visual/style/ieee-bar.mplstyle'],figsize,legend,**kwargs)
+        return 
 
-            return 
-
-    
-    def save(self, path, **kwargs):
-        self.fig.savefig(path)
-
-    def show(self):
-        plt.show()
 
 
             

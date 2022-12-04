@@ -14,5 +14,5 @@ def add_circle(ax,x,y,r,color='r',alpha = 1,**kwargs):
 def add_line(ax,x,y,x2,y2,color='r',alpha = 1,**kwargs):
     ax.add_line(plt.Line2D((x,x2),(y,y2),color = color,alpha = alpha,**kwargs))
 
-def add_arrow(ax,x,y,x2,y2,color='r',alpha = 1,width = 0.1,**kwargs):
-    ax.add_patch(plt.Arrow(x,y,x2-x,y2-y,color = color,alpha = alpha,width = width,**kwargs))
+def add_anno(ax,x,y,text,x_txt,y_txt,**kwargs):
+    ax.annotate(text = text,xy = (x,y),xytext = (x_txt,y_txt),**kwargs)

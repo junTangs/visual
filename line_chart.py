@@ -1,5 +1,5 @@
 from .base_chart import BaseChart,plt
-
+from .basic_draw import add_anno
 
 class LineChart(BaseChart):
     def __init__(self, **kwargs) -> None:
@@ -10,29 +10,17 @@ class LineChart(BaseChart):
     
         for value in data["values"]:
             ax.plot(data["x"],value["y"],**value["option"])
+            if kwargs.get("anno",False):
+                for x,y in zip(data["x"],value["y"]):
+                    add_anno(ax=ax,x=x,y=y,x_txt=x,y_txt=y,text=f"{y}",fontsize = kwargs.get("fontsize",15))
+
         
         return super().draw_ax(data,ax,legend,**kwargs)  
-
-
-
-    def draw(self, data,figsize = (5,5), legend = True,**kwargs):
-        with plt.style.context(['visual/style/ieee-line.mplstyle',"visual/style/no-latex.mplstyle","visual/style/grid.mplstyle"]):
-            self.fig, ax = plt.subplots(ncols=1,nrows=1,figsize = figsize)
-
-            self.draw_ax(data,ax,legend,**kwargs)
-            
-            if self._draw_callback is not None:
-                self._draw_callback(self.fig,ax,data)
-
-            return 
-
     
-    def save(self, path, **kwargs):
-        self.fig.savefig(path)
+    def draw(self, data,figsize = (7,7),legend = True, **kwargs):
+        super().draw(data,['visual/style/ieee-line.mplstyle',"visual/style/no-latex.mplstyle","visual/style/grid.mplstyle"],figsize,legend,**kwargs)
+        return 
 
-    def show(self):
-        plt.show()
-                
             
 if __name__ == "__main__":
     import math
